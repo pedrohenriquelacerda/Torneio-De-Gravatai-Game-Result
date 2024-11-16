@@ -56,14 +56,10 @@
       <h3 class="text-center mb-4">Torneio de Robótica de Gravataí 2024</h3>
       <div class="row justify-content-center">
         <div class="col-md-6">
-          <div class="input-group mb-3" style="font-size: 1rem;">
-            <input
-              type="number"
-              id="numeroDoJogo"
-              class="form-control"
-              placeholder="Digite o número do jogo"
-              disabled
-            />
+          <div class="input-group mb-3" style="font-size: 1rem">
+            <select id="numeroDoJogo" class="form-select" disabled>
+              <option value="" selected>Selecione o jogo</option>
+            </select>
             <button
               onclick="buscarJogo()"
               id="buscarButton"
@@ -95,12 +91,39 @@
           sheetObjects = csvToObjects(csvText);
           console.log(sheetObjects);
           isFetched = true;
+          preencherSelect();
           enableInputs();
         });
 
       function enableInputs() {
         document.getElementById("numeroDoJogo").disabled = false;
         document.getElementById("buscarButton").disabled = false;
+      }
+
+      function preencherSelect() {
+        const select = document.getElementById("numeroDoJogo");
+
+        const jogosAgrupados = {};
+        sheetObjects.forEach((item) => {
+          const numeroDoJogo = item["Número do jogo "];
+          const equipe = item["Equipe "] || "Equipe Desconhecida";
+
+          if (!jogosAgrupados[numeroDoJogo]) {
+            jogosAgrupados[numeroDoJogo] = [];
+          }
+          jogosAgrupados[numeroDoJogo].push(equipe);
+        });
+
+        Object.entries(jogosAgrupados).forEach(([numeroDoJogo, equipes]) => {
+          const option = document.createElement("option");
+          option.value = numeroDoJogo;
+
+          const equipe1 = equipes[0] || "Equipe Desconhecida";
+          const equipe2 = equipes[1] || "Equipe Desconhecida";
+
+          option.textContent = `Jogo ${numeroDoJogo}: ${equipe1} & ${equipe2}`;
+          select.appendChild(option);
+        });
       }
 
       function csvToObjects(csv) {
@@ -144,12 +167,12 @@
         outputDiv.innerHTML = "";
 
         if (resultados.length === 0) {
-          outputDiv.innerHTML = ` 
-            <div class="col-12">
-              <div class="alert alert-warning text-center">
-                Nenhum resultado encontrado para o número do jogo ${numeroDoJogo}
-              </div>
-            </div>`;
+          outputDiv.innerHTML = `
+                  <div class="col-12">
+                    <div class="alert alert-warning text-center">
+                      Nenhum resultado encontrado para o número do jogo ${numeroDoJogo}
+                    </div>
+                  </div>`;
           return;
         }
 
@@ -170,60 +193,66 @@
 
           card.className = `col-md-6 ${cardClass}`;
           card.innerHTML = `
-        <div class="card h-100 ${cardClass}">
-  <div class="card-body d-flex flex-column">
-    <div class="mt-auto pontos-totais">
-      <h5 class="card-title">${objeto["Equipe "]}</h5>
-      ${pontosTotais}
-    </div>
-    <div class="d-flex justify-content-evenly">
-      <p class="card-text" style="text-align: right; width: 60%;">Resíduos Movimentados:</p>
-      <p class="card-text" style="text-align: left; width: 30%; margin-left: 10px; font-weight: bold;">${formatarNumero(
-        parseInt(objeto["Resíduos Movimentados (Soma dos pontos) "])
-      )}</p>
-    </div>
-    <div class="d-flex justify-content-evenly">
-      <p class="card-text" style="text-align: right; width: 60%;">Resíduos Zona de Carga:</p>
-      <p class="card-text" style="text-align: left; width: 30%; margin-left: 10px; font-weight: bold;">${formatarNumero(
-        parseInt(objeto["Resíduos Zona de Carga (Soma dos pontos) "])
-      )}</p>
-    </div>
-    <div class="d-flex justify-content-evenly">
-      <p class="card-text" style="text-align: right; width: 60%;">Resíduos Reciclados:</p>
-      <p class="card-text" style="text-align: left; width: 30%; margin-left: 10px; font-weight: bold;">${formatarNumero(
-        parseInt(objeto["Resíduos Reciclados (Soma dos pontos) "])
-      )}</p>
-    </div>
-    <div class="d-flex justify-content-evenly">
-      <p class="card-text" style="text-align: right; width: 60%;">Estacionado:</p>
-      <p class="card-text" style="text-align: left; width: 30%; margin-left: 10px; font-weight: bold;">${formatarNumero(
-        parseInt(objeto["Estacionado (Global - Soma dos pontos) "])
-      )} <i class="fas fa-star"></i></p>
-    </div>
-    <div class="d-flex justify-content-evenly">
-      <p class="card-text" style="text-align: right; width: 60%;">Resíduos reciclados:</p>
-      <p class="card-text" style="text-align: left; width: 30%; margin-left: 10px; font-weight: bold;">${formatarNumero(
-        parseInt(objeto["Resíduos Reciclados (Global - Soma dos pontos) "])
-      )} <i class="fas fa-star"></i>
-</p>
-    </div>
-        <div class="d-flex justify-content-evenly">
-      <p class="card-text" style="text-align: right; width: 60%;">Todos Resíduos Reciclados:</p>
-      <p class="card-text" style="text-align: left; width: 30%; margin-left: 10px; font-weight: bold;">${formatarNumero(
-        parseInt(objeto["Todos Resíduos Reciclados  (Global - Soma dos pontos) "])
-      )} <i class="fas fa-star"></i>
+                  <div class="card h-100 ${cardClass}">
+                    <div class="card-body d-flex flex-column">
+                      <div class="mt-auto pontos-totais">
+                        <h5 class="card-title">${objeto["Equipe "]}</h5>
+                        ${pontosTotais}
+                      </div>
+          <div class="d-flex justify-content-evenly">
+            <p class="card-text" style="text-align: right; width: 60%;">Resíduos Movimentados:</p>
+            <p class="card-text" style="text-align: left; width: 30%; margin-left: 10px; font-weight: bold;">${formatarNumero(
+              parseInt(objeto["Resíduos Movimentados (Soma dos pontos) "])
+            )}</p>
+          </div>
+          <div class="d-flex justify-content-evenly">
+            <p class="card-text" style="text-align: right; width: 60%;">Resíduos Zona de Carga:</p>
+            <p class="card-text" style="text-align: left; width: 30%; margin-left: 10px; font-weight: bold;">${formatarNumero(
+              parseInt(objeto["Resíduos Zona de Carga (Soma dos pontos) "])
+            )}</p>
+          </div>
+          <div class="d-flex justify-content-evenly">
+            <p class="card-text" style="text-align: right; width: 60%;">Resíduos Reciclados:</p>
+            <p class="card-text" style="text-align: left; width: 30%; margin-left: 10px; font-weight: bold;">${formatarNumero(
+              parseInt(objeto["Resíduos Reciclados (Soma dos pontos) "])
+            )}</p>
+          </div>
+          <div class="d-flex justify-content-evenly">
+            <p class="card-text" style="text-align: right; width: 60%;">Estacionado:</p>
+            <p class="card-text" style="text-align: left; width: 30%; margin-left: 10px; font-weight: bold;">${formatarNumero(
+              parseInt(objeto["Estacionado (Global - Soma dos pontos) "])
+            )} <i class="fas fa-star"></i></p>
+          </div>
+          <div class="d-flex justify-content-evenly">
+            <p class="card-text" style="text-align: right; width: 60%;">Resíduos reciclados:</p>
+            <p class="card-text" style="text-align: left; width: 30%; margin-left: 10px; font-weight: bold;">${formatarNumero(
+              parseInt(
+                objeto["Resíduos Reciclados (Global - Soma dos pontos) "]
+              )
+            )} <i class="fas fa-star"></i>
       </p>
-    </div>
-        <div class="d-flex justify-content-evenly">
-      <p class="card-text" style="text-align: right; width: 60%;">Reciclagem Perfeita:</p>
-      <p class="card-text" style="text-align: left; width: 30%; margin-left: 10px; font-weight: bold;">${formatarNumero(
-        parseInt(objeto["Reciclagem Perfeita (Global - Soma dos pontos) "])
-      )} <i class="fas fa-star"></i>
-      </p>
-    </div>
-  </div>
-</div>
-`;
+          </div>
+              <div class="d-flex justify-content-evenly">
+            <p class="card-text" style="text-align: right; width: 60%;">Todos Resíduos Reciclados:</p>
+            <p class="card-text" style="text-align: left; width: 30%; margin-left: 10px; font-weight: bold;">${formatarNumero(
+              parseInt(
+                objeto["Todos Resíduos Reciclados  (Global - Soma dos pontos) "]
+              )
+            )} <i class="fas fa-star"></i>
+            </p>
+          </div>
+              <div class="d-flex justify-content-evenly">
+            <p class="card-text" style="text-align: right; width: 60%;">Reciclagem Perfeita:</p>
+            <p class="card-text" style="text-align: left; width: 30%; margin-left: 10px; font-weight: bold;">${formatarNumero(
+              parseInt(
+                objeto["Reciclagem Perfeita (Global - Soma dos pontos) "]
+              )
+            )} <i class="fas fa-star"></i>
+            </p>
+          </div>
+        </div>
+      </div>
+      `;
           outputDiv.appendChild(card);
         });
       }
