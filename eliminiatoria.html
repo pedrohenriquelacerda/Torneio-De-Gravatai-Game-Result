@@ -61,7 +61,7 @@
           style="font-size: 1.25rem; padding: 10px 20px; border-radius: 8px"
           onclick="window.location.href = 'index.html'"
         >
-          Eliminiatórias
+          Eliminatórias
         </button>
       </div>
 
@@ -83,7 +83,6 @@
               Buscar
             </button>
           </div>
-          
         </div>
       </div>
 
@@ -138,7 +137,6 @@
           console.log(jogosAgrupados);
         });
 
-        console.log(Object.entries(jogosAgrupados));
         Object.entries(jogosAgrupados).forEach(([numeroDoJogo, equipes]) => {
           const option = document.createElement("option");
           option.value = numeroDoJogo;
@@ -199,6 +197,10 @@
           return;
         }
 
+        console.log(resultados[0]["Tipo de partida"]);
+
+        outputDiv.innerHTML += `<h2 class="text-center" >${resultados[0]["Tipo de partida"]}</h2>`;
+
         resultados.forEach((objeto, index) => {
           const pontosTotais =
             parseInt(objeto["Resíduos Movimentados (Soma dos pontos)"]) +
@@ -208,6 +210,7 @@
             parseInt(objeto["Reciclagem Perfeita "]) +
             parseInt(objeto["Todos Resíduos Reciclados "]);
 
+          /*
           console.log(
             parseInt(objeto["Resíduos Movimentados (Soma dos pontos)"])
           );
@@ -220,11 +223,10 @@
           console.log(parseInt(objeto["Estacionado"]));
           console.log(parseInt(objeto["Reciclagem Perfeita "]));
           console.log(parseInt(objeto["Todos Resíduos Reciclados "]));
-
+          */
           const cardClass = index === 0 ? "card-vermelha" : "card-azul";
           const card = document.createElement("div");
           outputDiv.innerHTML += `
-          <h2 class="text-center mb-1">${objeto["Tipo de partida"]}</h2>
           <div class="card h-100 ${cardClass}">
     <div class="card-body d-flex flex-column">
       <div class="mt-auto pontos-totais">
