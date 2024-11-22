@@ -120,8 +120,8 @@
 
         const jogosAgrupados = {};
         sheetObjects.forEach((item) => {
-          const numeroDoJogo = item["Número do jogo "];
-          const equipe = item["Equipe "] || "Equipe Desconhecida";
+          const numeroDoJogo = item["Número do jogo"];
+          const equipe = item["Equipe"] || "Equipe Desconhecida";
 
           if (!jogosAgrupados[numeroDoJogo]) {
             jogosAgrupados[numeroDoJogo] = [];
@@ -174,7 +174,7 @@
 
         const numeroDoJogo = document.getElementById("numeroDoJogo").value;
         const resultados = sheetObjects.filter(
-          (item) => item["Número do jogo "] === numeroDoJogo.toString()
+          (item) => item["Número do jogo"] === numeroDoJogo.toString()
         );
 
         // Exibir resultados no HTML
@@ -195,55 +195,55 @@
           const card = document.createElement("div");
           const cardClass = index === 0 ? "card-vermelha" : "card-azul";
           const pontosTotais =
-            parseInt(objeto["Resíduos Movimentados (Soma dos pontos) "]) +
-            parseInt(objeto["Resíduos Zona de Carga (Soma dos pontos) "]) +
-            parseInt(objeto["Resíduos Reciclados (Soma dos pontos) "]) +
-            parseInt(objeto["Estacionado (Global - Soma dos pontos) "]) +
+            parseInt(objeto["Resíduos Movimentados (Soma dos pontos)"]) +
+            parseInt(objeto["Resíduos Zona de Carga (Soma dos pontos)"]) +
+            parseInt(objeto["Resíduos Reciclados (Soma dos pontos)"]) +
+            parseInt(objeto["Estacionado (Global - Soma dos pontos)"]) +
             parseInt(
-              objeto["Resíduos Reciclados (Global - Soma dos pontos) "]
+              objeto["Resíduos Reciclados (Global - Soma dos pontos)"]
             ) +
             parseInt(
-              objeto["Todos Resíduos Reciclados  (Global - Soma dos pontos) "]
+              objeto["Todos Resíduos Reciclados  (Global - Soma dos pontos)"]
             ) +
-            parseInt(objeto["Reciclagem Perfeita (Global - Soma dos pontos) "]);
+            parseInt(objeto["Reciclagem Perfeita (Global - Soma dos pontos)"]);
 
           card.className = `col-md-6 ${cardClass}`;
           card.innerHTML = `
                   <div class="card h-100 ${cardClass}">
                     <div class="card-body d-flex flex-column">
                       <div class="mt-auto pontos-totais">
-                        <h5 class="card-title">${objeto["Equipe "]}</h5>
+                        <h5 class="card-title">${objeto["Equipe"]}</h5>
                         ${pontosTotais}
                       </div>
           <div class="d-flex justify-content-evenly">
             <p class="card-text" style="text-align: right; width: 60%;">Resíduos Movimentados:</p>
             <p class="card-text" style="text-align: left; width: 30%; margin-left: 10px; font-weight: bold;">${formatarNumero(
-              parseInt(objeto["Resíduos Movimentados (Soma dos pontos) "])
+              parseInt(objeto["Resíduos Movimentados (Soma dos pontos)"])
             )}</p>
           </div>
           <div class="d-flex justify-content-evenly">
             <p class="card-text" style="text-align: right; width: 60%;">Resíduos Zona de Carga:</p>
             <p class="card-text" style="text-align: left; width: 30%; margin-left: 10px; font-weight: bold;">${formatarNumero(
-              parseInt(objeto["Resíduos Zona de Carga (Soma dos pontos) "])
+              parseInt(objeto["Resíduos Zona de Carga (Soma dos pontos)"])
             )}</p>
           </div>
           <div class="d-flex justify-content-evenly">
             <p class="card-text" style="text-align: right; width: 60%;">Resíduos Reciclados:</p>
             <p class="card-text" style="text-align: left; width: 30%; margin-left: 10px; font-weight: bold;">${formatarNumero(
-              parseInt(objeto["Resíduos Reciclados (Soma dos pontos) "])
+              parseInt(objeto["Resíduos Reciclados (Soma dos pontos)"])
             )}</p>
           </div>
           <div class="d-flex justify-content-evenly">
             <p class="card-text" style="text-align: right; width: 60%;">Estacionado:</p>
             <p class="card-text" style="text-align: left; width: 30%; margin-left: 10px; font-weight: bold;">${formatarNumero(
-              parseInt(objeto["Estacionado (Global - Soma dos pontos) "])
+              parseInt(objeto["Estacionado (Global - Soma dos pontos)"])
             )} <i class="fas fa-star"></i></p>
           </div>
           <div class="d-flex justify-content-evenly">
             <p class="card-text" style="text-align: right; width: 60%;">Resíduos reciclados:</p>
             <p class="card-text" style="text-align: left; width: 30%; margin-left: 10px; font-weight: bold;">${formatarNumero(
               parseInt(
-                objeto["Resíduos Reciclados (Global - Soma dos pontos) "]
+                objeto["Resíduos Reciclados (Global - Soma dos pontos)"]
               )
             )} <i class="fas fa-star"></i>
       </p>
@@ -252,7 +252,7 @@
             <p class="card-text" style="text-align: right; width: 60%;">Todos Resíduos Reciclados:</p>
             <p class="card-text" style="text-align: left; width: 30%; margin-left: 10px; font-weight: bold;">${formatarNumero(
               parseInt(
-                objeto["Todos Resíduos Reciclados  (Global - Soma dos pontos) "]
+                objeto["Todos Resíduos Reciclados  (Global - Soma dos pontos)"]
               )
             )} <i class="fas fa-star"></i>
             </p>
@@ -261,7 +261,7 @@
             <p class="card-text" style="text-align: right; width: 60%;">Reciclagem Perfeita:</p>
             <p class="card-text" style="text-align: left; width: 30%; margin-left: 10px; font-weight: bold;">${formatarNumero(
               parseInt(
-                objeto["Reciclagem Perfeita (Global - Soma dos pontos) "]
+                objeto["Reciclagem Perfeita (Global - Soma dos pontos)"]
               )
             )} <i class="fas fa-star"></i>
             </p>
